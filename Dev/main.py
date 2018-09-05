@@ -10,18 +10,22 @@ display_height = 250
 game_display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Maze Game')
 
-# Define the colors we will use in RGB format
-BLACK = (0,0,0)
+# Define the colors we will use in RGBA (Alpha) format
 WHITE = (255,255,255,255)
+# Background Ocean water is great
 BGROUND = (11,79,74,255)
+# Brave fella looking for good coin
 TURTLE = (50,229,98,255)
+# Rocks are not good for turtle.
 ROCK = (132,91,95,255)
+#The great good of the sea
 CHEST = (142,140,4,255)
 
 # Starting position of TURTLE
 x = 25
 y = 25
 
+# Handles keyboard controls
 def event_handler():
     
     global x
@@ -32,10 +36,7 @@ def event_handler():
             pygame.quit()
             quit()
         if (keys[K_w]):
-            #print("W was hit")
-            #print(sorted(game_display.get_at((x, y-25))))
-            #print(sorted(BGROUND))
-            #print(sorted(CHEST))
+        	# If the next square is not the background or the chest then it is an invalid location
             if y <= 0 or ((sorted(game_display.get_at((x, y-25))) != sorted(BGROUND)) and (sorted(game_display.get_at((x, y-25))) != sorted(CHEST))):
                 print("This is an invalid move")
             else:
@@ -68,6 +69,7 @@ def event_handler():
                 x += 25
                 pygame.draw.rect(game_display, TURTLE, [x, y, 25, 25])
 
+# Creates this beautiful map
 def create_map():
     # 1 = ROCK | 2 = BG | 3 = TURTLE | 4 = CHEST
     maze = [ 1,1,1,1,1,1,1,1,1,1,
@@ -80,13 +82,12 @@ def create_map():
              1,2,1,2,2,1,2,1,2,1,
              1,2,2,2,1,1,2,1,4,1,
              1,1,1,1,1,1,1,1,1,1,]
-    #pygame.draw.rect(game_display, TURTLE, [0, 0, 25, 25])
+    
+    # Don't want to use global values
     mazeX = 0
     mazeY = 0
+
     for i in maze:
-        #mazeX = 0
-        #mazeY = 0
-        #print("Value is {}".format(i))
         if mazeX >= 250:
             #print("jump")
             mazeX = 0
@@ -99,21 +100,7 @@ def create_map():
             pygame.draw.rect(game_display, CHEST, [mazeX, mazeY, 25, 25])
         mazeX = mazeX + 25
 
-def maze():
-    maze = [ 1,1,1,1,1,1,1,1,1,1,
-             1,3,2,2,2,2,2,2,1,1,
-             1,1,1,1,2,1,1,1,1,1,
-             1,2,2,2,2,1,1,1,2,1,
-             1,2,1,1,1,1,2,2,2,1,
-             1,2,2,2,2,2,2,1,2,1,
-             1,2,2,1,1,1,2,1,2,1,
-             1,2,1,2,2,1,2,1,2,1,
-             1,2,2,2,1,1,2,1,4,1,
-             1,1,1,1,1,1,1,1,1,1,]
-
-def getMazePos():
-    return 1
-
+# Main method my dude! This will create the map and then wait for keyboard controls until you enter the chest 
 def main():
     game_display.fill(BGROUND)
     create_map()
